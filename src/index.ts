@@ -319,17 +319,44 @@ export {
 } from "./wallets";
 
 // Utilities
-export { parseAccountResponse, getCache, setCache, clearCache, getSandboxUrls, HOOK_SANDBOXES } from "./utils";
-export type { HookSandboxInfo } from "./utils";
-
-// Typed error classes
 export {
+  parseAccountResponse,
+  getCache,
+  setCache,
+  clearCache,
+  getSandboxUrls,
+  HOOK_SANDBOXES,
+  createMemoryCacheAdapter,
+  defaultCacheAdapter,
+} from "./utils";
+export type { HookSandboxInfo, CacheAdapter } from "./utils";
+
+// Debug logger
+export {
+  DEBUG_STORAGE_KEY,
+  isDebugLoggingEnabled,
+  setDebugLogging,
+  enableDebugLogging,
+  disableDebugLogging,
+  logger,
+  debugLogger,
+} from "./utils/logger";
+
+// Typed error classes and error code enum
+export {
+  ErrorCode,
   StellarHookError,
   UserRejectedError,
   FreighterNotInstalledError,
+  WalletNotConnectedError,
+  WalletNotInstalledError,
+  TransactionFailedError,
+  TransactionTimeoutError,
+  NetworkError,
   SimulationError,
   isUserRejectionMessage,
 } from "./utils/errors";
+export type { ErrorCodeType } from "./utils/errors";
 
 export { decodeXdr, formatXdrResult, detectXdrType } from "./utils/xdr";
 export type { XdrDecodeResult } from "./utils/xdr";

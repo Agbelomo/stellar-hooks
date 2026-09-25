@@ -1,9 +1,17 @@
 import { StrKey } from "@stellar/stellar-sdk";
+import { StellarHookError, ErrorCode } from "./errors";
 
-export class ValidationError extends Error {
-  constructor(message: string) {
-    super(message);
+export class ValidationError extends StellarHookError {
+  constructor(message: string, options?: { cause?: unknown; context?: Record<string, unknown> }) {
+    super(message, {
+      code: ErrorCode.VALIDATION_ERROR,
+      cause: options?.cause,
+      context: options?.context,
+    });
     this.name = "ValidationError";
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, ValidationError);
+    }
   }
 }
 

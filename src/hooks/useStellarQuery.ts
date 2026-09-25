@@ -7,11 +7,13 @@
  * @license MIT
  */
 
-import { useCallback, useEffect, useReducer, useRef } from "react";
+import { useCallback, useEffect, useReducer, useRef, useDebugValue } from "react";
 import { useHookActivityDebug } from "../devtools/useHookActivityDebug";
 import { useStellarContext } from "../context";
 import { StellarHookError } from "../utils/errors";
 import { getCache, setCache } from "../utils";
+import type { CacheAdapter } from "../utils/cacheAdapter";
+import { logger } from "../utils/logger";
 
 export interface UseStellarQueryOptions<T> {
   enabled?: boolean;
@@ -19,6 +21,10 @@ export interface UseStellarQueryOptions<T> {
   deduplicate?: boolean;
   initialData?: T | null;
   debugLabel?: string;
+  /**
+   * Optional custom cache adapter (e.g. React Query or SWR adapter).
+   */
+  cacheAdapter?: CacheAdapter;
   /**
    * Delay in milliseconds before the initial fetch fires when deps change.
    * When > 0 the fetch triggered by mount / dep changes is debounced: if deps
@@ -118,7 +124,8 @@ export function useStellarQuery<T>(
     cacheTtl = DEFAULT_CACHE_TTL,
   } = options;
 
-  const { networkEpoch } = useStellarContext();
+  const { networkEpoch, cacheAdapter: contextCacheAdapter } = useStellarContext();
+  const cacheAdapter = options.cacheAdapter ?? contextCacheAdapter;
 
   const [state, dispatch] = useReducer(reducer<T>, {
     data: initialData,
@@ -127,6 +134,18 @@ export function useStellarQuery<T>(
     error: null,
     lastFetchedAt: null,
   });
+
+  useDebugValue(
+    state.isLoading
+      ? "loading"
+      : state.isRefetching
+      ? "refetching"
+      : state.error
+      ? `error: ${state.error.message}`
+      : state.data !== null
+      ? "ready"
+      : "idle"
+  );
 
   const stateRef = useRef(state);
   const fetcherRef = useRef(fetcher);
@@ -137,6 +156,7 @@ export function useStellarQuery<T>(
   const abortControllerRef = useRef<AbortController | null>(null);
   const networkEpochRef = useRef(networkEpoch);
   const debounceDelayRef = useRef(debounceDelay);
+  const cacheAdapterRef = useRef(cacheAdapter);
 
   // Keep option refs up-to-date so the callback always sees the latest values
   // without needing to be re-created.
@@ -171,6 +191,10 @@ export function useStellarQuery<T>(
     cacheTtlRef.current = cacheTtl;
   }, [cacheTtl]);
 
+  useEffect(() => {
+    cacheAdapterRef.current = cacheAdapter;
+  }, [cacheAdapter]);
+
   const refetch = useCallback(async () => {
     if (!enabled) return;
     if (deduplicate && isFetchingRef.current) return;
@@ -180,8 +204,10 @@ export function useStellarQuery<T>(
 
     // ── Cache hit: dispatch immediately, skip network call ──────────────────
     if (key) {
-      const cached = getCache<T>(key);
+      const adapter = cacheAdapterRef.current;
+      const cached = adapter ? await adapter.get<T>(key) : getCache<T>(key);
       if (cached !== null) {
+        logger.debug("useStellarQuery", `Cache hit: ${debugLabel} (${key})`);
         dispatch({ type: "FETCH_SUCCESS", payload: cached });
         return;
       }
@@ -196,6 +222,7 @@ export function useStellarQuery<T>(
     const signal = abortControllerRef.current.signal;
     const epoch = networkEpochRef.current;
 
+    logger.logRpc(`query:${debugLabel}`, { key });
     isFetchingRef.current = true;
     dispatch({ type: "FETCH_START", hasData: stateRef.current.data !== null });
 
@@ -205,13 +232,20 @@ export function useStellarQuery<T>(
 
       // Populate the cache on success when a key is configured.
       if (key && result !== null) {
-        setCache<T>(key, result, ttl);
+        const adapter = cacheAdapterRef.current;
+        if (adapter) {
+          await adapter.set<T>(key, result, ttl);
+        } else {
+          setCache<T>(key, result, ttl);
+        }
       }
 
+      logger.debug("useStellarQuery", `Fetch success: ${debugLabel}`);
       dispatch({ type: "FETCH_SUCCESS", payload: result });
     } catch (err) {
       if (err instanceof Error && err.name === "AbortError") return;
       if (epoch !== networkEpochRef.current) return;
+      logger.error("useStellarQuery", `Fetch error: ${debugLabel}`, err);
       dispatch({
         type: "FETCH_ERROR",
         payload: StellarHookError.from(err),

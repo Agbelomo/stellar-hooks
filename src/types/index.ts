@@ -7,6 +7,7 @@
 
 import type { Horizon, xdr, Contract } from "@stellar/stellar-sdk";
 import type * as rpc from "@stellar/stellar-sdk/rpc";
+import type { CacheAdapter } from "../utils/cacheAdapter";
 
 // ─── Network ──────────────────────────────────────────────────────────────────
 
@@ -614,6 +615,8 @@ export interface StellarProviderProps {
    * network passphrase for your deployment.
    */
   customConfig?: CustomNetworkConfig;
+  /** Optional custom cache adapter (e.g. React Query, SWR, or custom store). */
+  cacheAdapter?: CacheAdapter | undefined;
   children: React.ReactNode;
 }
 
@@ -632,6 +635,8 @@ export interface StellarHooksProviderProps {
   networkPassphrase?: string | undefined;
   /** Backward compatible custom config object. */
   customConfig?: CustomNetworkConfig | undefined;
+  /** Optional custom cache adapter (e.g. React Query, SWR, or custom store). */
+  cacheAdapter?: CacheAdapter | undefined;
   children: React.ReactNode;
 }
 
@@ -651,6 +656,8 @@ export interface StellarContextValue {
    * responses from a previous network.
    */
   networkEpoch: number;
+  /** Optional custom cache adapter for cross-hook caching & deduplication. */
+  cacheAdapter?: CacheAdapter | undefined;
 }
 
 export interface HookActivitySnapshot {

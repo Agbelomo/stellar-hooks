@@ -15,6 +15,7 @@ import { useHookActivityDebug } from "../devtools/useHookActivityDebug";
 import type { TransactionState, TransactionStatus, StellarXdrString, StellarTxHash, StellarTransactionError } from "../types";
 import { asTxHash } from "../types";
 import { sleep, backoff } from "../utils";
+import { logger } from "../utils/logger";
 
 // ─── Options ──────────────────────────────────────────────────────────────────
 
@@ -103,6 +104,7 @@ export function useTransactionCore(
 
   const submit = useCallback(
     async (signedXdr: StellarXdrString) => {
+      logger.logStateTransition("useTransactionCore", state.status, "submitting");
       dispatch({ type: "STATUS", payload: "submitting" });
 
       try {
@@ -110,6 +112,7 @@ export function useTransactionCore(
           const server = new rpc.Server(config.sorobanRpcUrl);
           const tx = TransactionBuilder.fromXDR(signedXdr, config.networkPassphrase);
 
+          logger.logRpc("sorobanRpc.sendTransaction", { sorobanRpcUrl: config.sorobanRpcUrl });
           const sendResult = await server.sendTransaction(tx);
 
           if (sendResult.status === "ERROR") {
@@ -117,12 +120,14 @@ export function useTransactionCore(
               type: "network",
               message: `Submission failed: ${JSON.stringify(sendResult.errorResult)}`,
             };
+            logger.logStateTransition("useTransactionCore", "submitting", "error", error);
             dispatch({ type: "ERROR", payload: error });
             onError?.(error);
             return;
           }
 
           const txHash = sendResult.hash;
+          logger.logStateTransition("useTransactionCore", "submitting", "polling", { txHash });
           dispatch({ type: "STATUS", payload: "polling" });
 
           const deadline = Date.now() + timeoutSeconds * 1000;
@@ -135,6 +140,7 @@ export function useTransactionCore(
 
             let getResult;
             try {
+              logger.logRpc("sorobanRpc.getTransaction", { txHash, attempt });
               getResult = await server.getTransaction(txHash);
               consecutiveFailures = 0; // Reset failures on successful network request
             } catch (pollingErr) {
@@ -143,6 +149,7 @@ export function useTransactionCore(
                 (pollingErr.message.includes("NetworkError") || pollingErr.message.includes("ECONNREFUSED") || pollingErr.message.includes("timeout") || pollingErr.message.includes("fetch"));
                 
               if (isNetworkError && consecutiveFailures <= maxRetries) {
+                logger.logRetry("useTransactionCore", consecutiveFailures, maxRetries, pollingErr);
                 console.warn(`[useTransactionCore] Polling network error. Retry ${consecutiveFailures}/${maxRetries}...`);
                 const retryDelay = 1000 * Math.pow(backoffMultiplier, consecutiveFailures);
                 await sleep(retryDelay);
@@ -153,6 +160,7 @@ export function useTransactionCore(
             }
 
             if (getResult.status === rpc.Api.GetTransactionStatus.SUCCESS) {
+              logger.logStateTransition("useTransactionCore", "polling", "success", { hash: txHash });
               dispatch({ type: "SUCCESS", hash: asTxHash(txHash) });
               onSuccess?.(txHash);
               return;

@@ -21,6 +21,7 @@ import type {
 } from "../types";
 import { asTxHash, unsafeAsXdrString } from "../types";
 import { sleep, backoff } from "../utils";
+import { logger } from "../utils/logger";
 
 // ─── Enhanced Status Types ────────────────────────────────────────────────────────────
 
@@ -416,6 +417,7 @@ export function useTransactionLifecycle<TResult = unknown>(
                  pollingErr.message.includes("fetch"));
                 
               if (isNetworkError && consecutiveFailures <= maxRetries) {
+                logger.logRetry("useTransactionLifecycle", consecutiveFailures, maxRetries, pollingErr);
                 console.warn(`[useTransactionLifecycle] Polling network error. Retry ${consecutiveFailures}/${maxRetries}...`);
                 const retryDelay = 1000 * Math.pow(backoffMultiplier, consecutiveFailures);
                 await sleep(retryDelay);
@@ -426,6 +428,7 @@ export function useTransactionLifecycle<TResult = unknown>(
             }
 
             if (getResult.status === rpc.Api.GetTransactionStatus.SUCCESS) {
+              logger.logStateTransition("useTransactionLifecycle", "polling", "success", { hash: txHash });
               dispatch({ type: "SUCCESS", hash: asTxHash(txHash) });
               onSuccess?.(txHash);
               return;
