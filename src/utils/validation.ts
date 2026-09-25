@@ -1,5 +1,6 @@
 import { StrKey } from "@stellar/stellar-sdk";
 import { StellarHookError, ErrorCode } from "./errors";
+import { getErrorString } from "./errorStrings";
 
 export class ValidationError extends StellarHookError {
   constructor(message: string, options?: { cause?: unknown; context?: Record<string, unknown> }) {
@@ -21,7 +22,7 @@ export function validatePublicKey(
 ): asserts value is string {
   if (!value || !StrKey.isValidEd25519PublicKey(value)) {
     throw new ValidationError(
-      `Invalid ${label}: "${String(value)}" is not a valid Stellar public key (G...).`
+      getErrorString("invalidPublicKey", { label, value: String(value) })
     );
   }
 }
@@ -32,7 +33,7 @@ export function validateContractId(
 ): asserts value is string {
   if (!value || !StrKey.isValidContract(value)) {
     throw new ValidationError(
-      `Invalid ${label}: "${String(value)}" is not a valid Stellar contract ID (C...).`
+      getErrorString("invalidContractId", { label, value: String(value) })
     );
   }
 }
@@ -43,7 +44,7 @@ export function validateOptionalPublicKey(
 ): void {
   if (value != null && !StrKey.isValidEd25519PublicKey(value)) {
     throw new ValidationError(
-      `Invalid ${label}: "${value}" is not a valid Stellar public key (G...).`
+      getErrorString("invalidPublicKey", { label, value: String(value) })
     );
   }
 }
@@ -54,7 +55,7 @@ export function validateOptionalContractId(
 ): void {
   if (value != null && !StrKey.isValidContract(value)) {
     throw new ValidationError(
-      `Invalid ${label}: "${value}" is not a valid Stellar contract ID (C...).`
+      getErrorString("invalidContractId", { label, value: String(value) })
     );
   }
 }

@@ -268,6 +268,13 @@ Keep the description under 70 characters. Reference the issue in the PR body, no
 - [ ] Documentation is updated if necessary
 - [ ] A changeset has been added to document version changes
 
+## Issue Triage & Labeling
+
+Maintainers and contributors triaging new issues should follow our [Issue Triage & Labeling Guide](.github/TRIAGE.md). It outlines:
+- Step-by-step triage workflow (within 48h SLA)
+- Comprehensive label taxonomy (`type:*`, `area:*`, `priority:*`, `status:*`)
+- Canned response templates for missing reproductions and duplicate issues
+
 ## Code Review
 
 

@@ -5,6 +5,8 @@
  * @license MIT
  */
 
+import { getErrorString } from "./errorStrings";
+
 /**
  * Standardized error code enum so consumers can reliably branch on error types.
  */
@@ -83,7 +85,7 @@ export class StellarHookError extends Error {
    */
   static from(
     err: unknown,
-    fallbackMessage = "An unknown error occurred",
+    fallbackMessage = getErrorString("unknownError"),
     additionalContext?: Record<string, unknown>,
     fallbackCode?: ErrorCode | string
   ): StellarHookError {
@@ -209,7 +211,7 @@ export class UserRejectedError extends StellarHookError {
  */
 export class FreighterNotInstalledError extends StellarHookError {
   constructor(
-    message = "Freighter is not installed or not reachable in this environment.",
+    message = getErrorString("freighterNotInstalled"),
     options?: { cause?: unknown; context?: Record<string, unknown> }
   ) {
     super(message, {
@@ -231,7 +233,7 @@ export class FreighterNotInstalledError extends StellarHookError {
  */
 export class WalletNotConnectedError extends StellarHookError {
   constructor(
-    message = "Wallet is not connected. Call connect() first.",
+    message = getErrorString("walletNotConnected"),
     options?: { cause?: unknown; context?: Record<string, unknown> }
   ) {
     super(message, {
@@ -255,7 +257,7 @@ export class WalletNotInstalledError extends StellarHookError {
   public readonly walletId: string | undefined;
 
   constructor(
-    message = "Wallet extension is not installed or not reachable.",
+    message = getErrorString("walletNotInstalled"),
     options?: { walletId?: string; cause?: unknown; context?: Record<string, unknown> }
   ) {
     super(message, {
@@ -307,7 +309,7 @@ export class TransactionTimeoutError extends StellarHookError {
   public readonly txHash: string | undefined;
 
   constructor(
-    message = "Transaction confirmation timed out.",
+    message = getErrorString("transactionTimeout"),
     options?: { txHash?: string; cause?: unknown; context?: Record<string, unknown> }
   ) {
     super(message, {
@@ -330,7 +332,7 @@ export class TransactionTimeoutError extends StellarHookError {
  */
 export class NetworkError extends StellarHookError {
   constructor(
-    message = "A network error occurred while communicating with the Stellar network.",
+    message = getErrorString("networkError"),
     options?: { cause?: unknown; context?: Record<string, unknown> }
   ) {
     super(message, {

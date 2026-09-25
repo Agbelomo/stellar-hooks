@@ -152,3 +152,5 @@ export * from './errors';
 export * from './sandboxes';
 export * from './logger';
 export * from './cacheAdapter';
+export * from './formatAmount';
+export * from './errorStrings';

@@ -5,22 +5,30 @@
  * @license MIT
  */
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { Horizon } from "@stellar/stellar-sdk";
 import { useStellarContext } from "../context";
 import { useStellarAccount, type UseStellarAccountOptions } from "./useStellarAccount";
 import type { StellarBalance, StellarPublicKey } from "../types";
 import { parseAccountResponse, validatePublicKey } from "../utils";
 
+import { formatAssetAmount, type FormatAssetAmountOptions } from "../utils/formatAmount";
+
 export type AssetDescriptor = { code: string; issuer: string } | "native";
 
 export interface UseAssetBalanceOptions extends UseStellarAccountOptions {
   /** Enable live updates via SSE streaming from Horizon account stream. Default: false */
   stream?: boolean;
+  /** Optional locale-aware amount formatting options */
+  formatOptions?: FormatAssetAmountOptions;
 }
 
 export interface UseAssetBalanceReturn {
   balance: StellarBalance | null;
+  /** Formatted balance string per specified locale and options, or null if balance is unavailable */
+  formattedBalance: string | null;
+  /** Helper to format any amount or the current asset balance with optional overrides */
+  formatAmount: (amount?: string | number | StellarBalance | null, options?: FormatAssetAmountOptions) => string;
   isLoading: boolean;
   error: Error | null;
   isStreaming: boolean;
@@ -113,8 +121,22 @@ export function useAssetBalance(
 
   const balance = streamedBalance !== null ? streamedBalance : initialBalance;
 
+  const formatAmount = useCallback(
+    (amount?: string | number | StellarBalance | null, opts?: FormatAssetAmountOptions) => {
+      const target = amount !== undefined ? amount : balance;
+      return formatAssetAmount(target, { ...options?.formatOptions, ...opts });
+    },
+    [balance, options?.formatOptions]
+  );
+
+  const formattedBalance = useMemo(() => {
+    return balance ? formatAmount(balance) : null;
+  }, [balance, formatAmount]);
+
   return {
     balance,
+    formattedBalance,
+    formatAmount,
     isLoading,
     error,
     isStreaming,

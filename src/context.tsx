@@ -16,6 +16,7 @@ import type {
   NetworkConfig,
 } from "./types";
 import { NETWORK_CONFIGS } from "./types";
+import { emitDevToolsActivity } from "./devtools/devtoolsBridge";
 
 const NETWORK_STORAGE_KEY = "stellar-hooks:network";
 const CUSTOM_CONFIG_STORAGE_KEY = "stellar-hooks:custom-config";
@@ -183,6 +184,10 @@ export function StellarHooksProvider({
   const unregisterHookActivity = useCallback((id: string) => {
     setHookEntries((previous) => previous.filter((entry) => entry.id !== id));
   }, []);
+
+  useEffect(() => {
+    emitDevToolsActivity(hookEntries);
+  }, [hookEntries]);
 
   const debugValue = useMemo<StellarHookDebugContextValue>(
     () => ({
