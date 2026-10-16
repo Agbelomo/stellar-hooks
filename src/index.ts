@@ -658,3 +658,17 @@ export type {
   UseVotingPowerOptions,
 } from "./hooks/useVotingPower";
 
+
+// UI Components (#995, #996, #997)
+export { FormattedBalance } from "./components/FormattedBalance";
+export type { FormattedBalanceProps } from "./components/FormattedBalance";
+
+export { TransactionStatusBadge } from "./components/TransactionStatusBadge";
+export type { TransactionStatusBadgeProps } from "./components/TransactionStatusBadge";
+
+export { StellarThemeProvider, applyStellarTheme, CSS_VARIABLE_REFERENCE } from "./components/theme";
+export type {
+  StellarThemeColors,
+  StellarThemeTokens,
+  StellarThemeProviderProps,
+} from "./components/theme";
