@@ -1,0 +1,25 @@
+{
+  "$schema": "https://unpkg.com/knip@5/overview/config-schema.json",
+  "entry": [
+    "src/index.ts!",
+    "src/types/index.ts!",
+    "src/wallets/index.ts!",
+    "src/devtools/index.ts!"
+  ],
+  "project": [
+    "src/**/*.{ts,tsx}!"
+  ],
+  "ignoreExportsUsedInFile": true,
+  "ignore": [
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "tests/**",
+    "examples/**"
+  ],
+  "ignoreDependencies": [
+    "@storybook/*",
+    "storybook",
+    "vitest",
+    "playwright"
+  ]
+}
