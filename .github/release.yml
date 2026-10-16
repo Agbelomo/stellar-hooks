@@ -1,0 +1,58 @@
+changelog:
+  exclude:
+    labels:
+      - duplicate
+      - invalid
+      - question
+      - wontfix
+  categories:
+    - title: "🚀 Features & Enhancements"
+      labels:
+        - enhancement
+        - feature
+        - new-hook
+    - title: "🐛 Bug Fixes"
+      labels:
+        - bug
+        - reliability
+        - resilience
+    - title: "⚡ Performance Improvements"
+      labels:
+        - perf
+        - performance
+    - title: "🔐 Security"
+      labels:
+        - security
+    - title: "🏛️ Governance & DAO"
+      labels:
+        - governance
+        - dao
+    - title: "👛 Wallets & Adapters"
+      labels:
+        - wallet
+        - wallet-support
+        - hardware-wallet
+    - title: "📚 Documentation"
+      labels:
+        - docs
+        - documentation
+    - title: "📦 Types & API Safety"
+      labels:
+        - types
+        - type-safety
+    - title: "🛠️ Tooling & Infrastructure"
+      labels:
+        - dx
+        - build
+        - ci
+        - ci-cd
+        - devtools
+        - infrastructure
+    - title: "🧹 Chores & Dependencies"
+      labels:
+        - chore
+        - dependencies
+        - maintenance
+    - title: "💬 Other Changes"
+      labels:
+        - "*"

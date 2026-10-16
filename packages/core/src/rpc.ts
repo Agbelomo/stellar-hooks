@@ -179,3 +179,70 @@ export function getHorizonUrl(config: NetworkConfig): string {
 export function getSorobanRpcUrl(config: NetworkConfig): string {
   return config.sorobanRpcUrl;
 }
+
+// ─── Framework-agnostic RPC fetchers ──────────────────────────────────────────
+
+/**
+ * Fetches and parses an account from Horizon using the given Horizon URL.
+ *
+ * @param horizonUrl - Base URL of the Horizon server
+ * @param publicKey - Account public key (G...)
+ */
+export async function fetchAccount(
+  horizonUrl: string,
+  publicKey: string
+): Promise<StellarAccountData> {
+  const HorizonModule = await import("@stellar/stellar-sdk").then((m) => m.Horizon);
+  const server = new HorizonModule.Server(horizonUrl);
+  const raw = await server.loadAccount(publicKey);
+  return parseAccountResponse(raw);
+}
+
+/**
+ * Fetches SAC token balance via Soroban RPC simulation without signing.
+ *
+ * @param sorobanRpcUrl - RPC URL for Soroban
+ * @param networkPassphrase - Network passphrase
+ * @param contractId - Token/SAC contract address (C...)
+ * @param accountAddress - Account address (G...)
+ */
+export async function fetchSorobanTokenBalance(
+  sorobanRpcUrl: string,
+  networkPassphrase: string,
+  contractId: string,
+  accountAddress: string
+): Promise<bigint> {
+  const sdk = await import("@stellar/stellar-sdk");
+  const server = new sdk.rpc.Server(sorobanRpcUrl);
+  const contract = new sdk.Contract(contractId);
+  const operation = contract.call(
+    "balance",
+    new sdk.Address(accountAddress).toScVal()
+  );
+
+  const DUMMY = "GAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWHF";
+  let account: InstanceType<typeof sdk.Account>;
+  try {
+    account = await server.getAccount(accountAddress);
+  } catch {
+    account = new sdk.Account(DUMMY, "0");
+  }
+
+  const tx = new sdk.TransactionBuilder(account, {
+    fee: "100",
+    networkPassphrase,
+  })
+    .addOperation(operation)
+    .setTimeout(30)
+    .build();
+
+  const simResult = await server.simulateTransaction(tx);
+  if (sdk.rpc.Api.isSimulationError(simResult)) {
+    throw new Error(simResult.error);
+  }
+  if (!sdk.rpc.Api.isSimulationSuccess(simResult) || !simResult.result) {
+    throw new Error("Simulation did not return a result");
+  }
+
+  return sdk.scValToNative(simResult.result.retval) as bigint;
+}
