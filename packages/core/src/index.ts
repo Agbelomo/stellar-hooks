@@ -34,6 +34,8 @@ export {
   backoff,
   getHorizonUrl,
   getSorobanRpcUrl,
+  fetchAccount,
+  fetchSorobanTokenBalance,
 } from "./rpc";
 
 export type { StellarAccountData, StellarBalance } from "./rpc";

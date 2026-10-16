@@ -18,7 +18,9 @@
     "test:testnet": "vitest run tests/integration/testnet",
     "check:circular": "node scripts/check-circular-deps.mjs",
     "check:circular:warn": "node scripts/check-circular-deps.mjs --warn",
-    "check:circular:graph": "node scripts/check-circular-deps.mjs --graph"
+    "check:circular:graph": "node scripts/check-circular-deps.mjs --graph",
+    "commitlint": "commitlint --edit",
+    "prepare": "husky"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -887,6 +889,17 @@
       "require": {
         "types": "./dist/hooks/usePaginatedOperations.d.ts",
         "default": "./dist/hooks/usePaginatedOperations.js"
+      }
+    },
+    "./useVotingPower": {
+      "types": "./dist/hooks/useVotingPower.d.ts",
+      "import": {
+        "types": "./dist/hooks/useVotingPower.d.mts",
+        "default": "./dist/hooks/useVotingPower.mjs"
+      },
+      "require": {
+        "types": "./dist/hooks/useVotingPower.d.ts",
+        "default": "./dist/hooks/useVotingPower.js"
       }
     }
   },

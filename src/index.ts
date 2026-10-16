@@ -631,7 +631,13 @@ export type {
   WalletMeta,
   WalletInfo,
   WalletAdapterPlugin,
-  CustomWalletAdapterInput,
-  // Deep-link types
   DeepLinkWalletConfig,
 } from "./wallets";
+
+// Governance hooks
+export { useVotingPower } from "./hooks/useVotingPower";
+export type {
+  VotingPowerState,
+  UseVotingPowerOptions,
+} from "./hooks/useVotingPower";
+
