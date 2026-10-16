@@ -601,6 +601,23 @@ export type {
   UseWebAuthReturn,
 } from "./hooks/useWebAuth";
 
+export { useProposals } from "./hooks/useProposals";
+export type {
+  Proposal,
+  ProposalStatus,
+  VoteTallies,
+  UseProposalsOptions,
+  UseProposalsReturn,
+} from "./hooks/useProposals";
+
+export { useVote } from "./hooks/useVote";
+export type {
+  VoteSupport,
+  CastVoteParams,
+  UseVoteOptions,
+  UseVoteReturn,
+} from "./hooks/useVote";
+
 // Storage adapter utilities (#840)
 export {
   createLocalStorageAdapter,
