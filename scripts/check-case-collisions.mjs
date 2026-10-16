@@ -8,7 +8,7 @@ const seen = new Map();
 const collisions = [];
 
 for (const rawPath of output.split("\n")) {
-  const path = rawPath.trim();
+  const path = rawPath.trim();a
   if (!path) continue;
 
   const folded = path.toLowerCase();
