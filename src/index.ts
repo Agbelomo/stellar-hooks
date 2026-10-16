@@ -319,6 +319,34 @@ export type {
   UseOperationsReturn,
 } from "./hooks/useOperations";
 
+// NFT hooks (issues #987–#990)
+export { useNftBalance } from "./hooks/useNftBalance";
+export type {
+  UseNftBalanceOptions,
+  UseNftBalanceData,
+  UseNftBalanceReturn,
+} from "./hooks/useNftBalance";
+
+export { useIpfsGateway, DEFAULT_IPFS_GATEWAYS } from "./hooks/useIpfsGateway";
+export type {
+  UseIpfsGatewayOptions,
+  UseIpfsGatewayReturn,
+} from "./hooks/useIpfsGateway";
+
+export { useNftMetadata } from "./hooks/useNftMetadata";
+export type {
+  NftMetadata,
+  UseNftMetadataOptions,
+  UseNftMetadataReturn,
+} from "./hooks/useNftMetadata";
+
+export { useNftTransfer } from "./hooks/useNftTransfer";
+export type {
+  UseNftTransferOptions,
+  NftTransferParams,
+  UseNftTransferReturn,
+} from "./hooks/useNftTransfer";
+
 // Network presets (useful for custom configs)
 export { NETWORK_CONFIGS } from "./types";
 
