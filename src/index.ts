@@ -658,21 +658,17 @@ export type {
   UseVotingPowerOptions,
 } from "./hooks/useVotingPower";
 
-// NFT Gallery hook (#991)
-export { useNftGallery } from "./hooks/useNftGallery";
+
+// UI Components (#995, #996, #997)
+export { FormattedBalance } from "./components/FormattedBalance";
+export type { FormattedBalanceProps } from "./components/FormattedBalance";
+
+export { TransactionStatusBadge } from "./components/TransactionStatusBadge";
+export type { TransactionStatusBadgeProps } from "./components/TransactionStatusBadge";
+
+export { StellarThemeProvider, applyStellarTheme, CSS_VARIABLE_REFERENCE } from "./components/theme";
 export type {
-  NftItem,
-  UseNftGalleryOptions,
-  UseNftGalleryReturn,
-} from "./hooks/useNftGallery";
-
-// UI Components (#992, #993, #994)
-export { WalletButton } from "./components/WalletButton";
-export type { WalletButtonProps } from "./components/WalletButton";
-
-export { StellarIdenticon } from "./components/StellarIdenticon";
-export type { StellarIdenticonProps } from "./components/StellarIdenticon";
-
-export { StellarAddress } from "./components/StellarAddress";
-export type { StellarAddressProps } from "./components/StellarAddress";
-
+  StellarThemeColors,
+  StellarThemeTokens,
+  StellarThemeProviderProps,
+} from "./components/theme";
