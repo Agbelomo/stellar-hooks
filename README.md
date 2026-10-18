@@ -11,6 +11,31 @@
 
 `stellar-hooks` wires the [Stellar JS SDK v13](https://github.com/stellar/js-stellar-sdk) and the Freighter wallet API into a set of ergonomic React hooks so you can build Stellar dApps without copy-pasting the same boilerplate across repos.
 
+## Try it in 30 seconds
+
+```bash
+npm install stellar-hooks
+```
+
+```tsx
+import { StellarProvider, useFreighter } from "stellar-hooks";
+
+function Connect() {
+  const { publicKey, connect } = useFreighter();
+  return publicKey ? <p>{publicKey}</p> : <button onClick={connect}>Connect Freighter</button>;
+}
+
+export default function App() {
+  return (
+    <StellarProvider network="testnet">
+      <Connect />
+    </StellarProvider>
+  );
+}
+```
+
+That is the whole setup. The sections below walk through it step by step, then list every hook.
+
 ## Getting Started
 
 Follow these simple steps to start building Stellar and Soroban dApps with `stellar-hooks`.
