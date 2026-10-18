@@ -627,6 +627,50 @@
         "default": "./dist/hooks/useSorobanServer.js"
       }
     },
+    "./useFriendbot": {
+      "types": "./dist/hooks/useFriendbot.d.ts",
+      "import": {
+        "types": "./dist/hooks/useFriendbot.d.mts",
+        "default": "./dist/hooks/useFriendbot.mjs"
+      },
+      "require": {
+        "types": "./dist/hooks/useFriendbot.d.ts",
+        "default": "./dist/hooks/useFriendbot.js"
+      }
+    },
+    "./useAnchorQuote": {
+      "types": "./dist/hooks/useAnchorQuote.d.ts",
+      "import": {
+        "types": "./dist/hooks/useAnchorQuote.d.mts",
+        "default": "./dist/hooks/useAnchorQuote.mjs"
+      },
+      "require": {
+        "types": "./dist/hooks/useAnchorQuote.d.ts",
+        "default": "./dist/hooks/useAnchorQuote.js"
+      }
+    },
+    "./useTokenMetadata": {
+      "types": "./dist/hooks/useTokenMetadata.d.ts",
+      "import": {
+        "types": "./dist/hooks/useTokenMetadata.d.mts",
+        "default": "./dist/hooks/useTokenMetadata.mjs"
+      },
+      "require": {
+        "types": "./dist/hooks/useTokenMetadata.d.ts",
+        "default": "./dist/hooks/useTokenMetadata.js"
+      }
+    },
+    "./useTokenApprove": {
+      "types": "./dist/hooks/useTokenApprove.d.ts",
+      "import": {
+        "types": "./dist/hooks/useTokenApprove.d.mts",
+        "default": "./dist/hooks/useTokenApprove.mjs"
+      },
+      "require": {
+        "types": "./dist/hooks/useTokenApprove.d.ts",
+        "default": "./dist/hooks/useTokenApprove.js"
+      }
+    },
     "./useSorobanTokenBalance": {
       "types": "./dist/hooks/useSorobanTokenBalance.d.ts",
       "import": {
