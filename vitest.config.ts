@@ -44,6 +44,12 @@ export default defineConfig({
       "@walletconnect/sign-client": fileURLToPath(
         new URL("./src/__mocks__/@walletconnect/sign-client.ts", import.meta.url)
       ),
+      "@ledgerhq/hw-transport-webusb": fileURLToPath(
+        new URL("./src/__mocks__/@ledgerhq/hw-transport-webusb.ts", import.meta.url)
+      ),
+      "@ledgerhq/hw-app-str": fileURLToPath(
+        new URL("./src/__mocks__/@ledgerhq/hw-app-str.ts", import.meta.url)
+      ),
       "stellar-hooks": fileURLToPath(
         new URL("./src/index.ts", import.meta.url)
       ),
