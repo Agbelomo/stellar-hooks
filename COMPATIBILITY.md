@@ -103,3 +103,5 @@ Expected output:
 stellar-hooks@0.2.0
 └── @stellar/stellar-sdk@13.3.0
 ```
+
+Hardware wallet verification status: [docs/HARDWARE_WALLET_COMPATIBILITY.md](docs/HARDWARE_WALLET_COMPATIBILITY.md).

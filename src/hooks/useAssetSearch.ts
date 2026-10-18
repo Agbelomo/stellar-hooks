@@ -56,6 +56,18 @@ export interface UseAssetSearchOptions {
   debounceMs?: number;
   /** Whether the hook should fetch. Default: true */
   enabled?: boolean;
+  /** StellarExpert network to search. Default: "public" */
+  network?: "public" | "testnet";
+  /** Maximum number of records to request (1-200). Default: StellarExpert's default page size */
+  limit?: number;
+  /**
+   * Only keep assets whose code equals the query (case-insensitive), so a
+   * search for "USDC" lists every issuer of USDC and nothing like "USDCX".
+   * Default: false (fuzzy matches, as returned by StellarExpert)
+   */
+  exactCode?: boolean;
+  /** Drop assets whose StellarExpert average rating is below this (0-10). Default: no filter */
+  minRating?: number;
 }
 
 /**
@@ -76,7 +88,7 @@ export interface UseAssetSearchReturn {
   lastFetchedAt: Date | null;
 }
 
-const STELLAR_EXPERT_API_URL = "https://api.stellar.expert/explorer/public/asset";
+const STELLAR_EXPERT_BASE_URL = "https://api.stellar.expert/explorer";
 
 /**
  * Searches for Stellar assets via the StellarExpert public API.
@@ -85,7 +97,15 @@ const STELLAR_EXPERT_API_URL = "https://api.stellar.expert/explorer/public/asset
 export function useAssetSearch(
   options: UseAssetSearchOptions = {}
 ): UseAssetSearchReturn {
-  const { debounceMs = 300, enabled = true } = options;
+  const {
+    debounceMs = 300,
+    enabled = true,
+    network = "public",
+    limit,
+    exactCode = false,
+    minRating,
+  } = options;
+  const apiUrl = `${STELLAR_EXPERT_BASE_URL}/${network}/asset`;
 
   const [results, setResults] = useState<StellarAssetInfo[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -120,7 +140,11 @@ export function useAssetSearch(
         abortControllerRef.current = new AbortController();
 
         try {
-          const url = `${STELLAR_EXPERT_API_URL}?search=${encodeURIComponent(query.trim())}`;
+          const trimmed = query.trim();
+          let url = `${apiUrl}?search=${encodeURIComponent(trimmed)}`;
+          if (limit !== undefined) {
+            url += `&limit=${Math.min(Math.max(Math.trunc(limit), 1), 200)}`;
+          }
           const response = await fetch(url, {
             signal: abortControllerRef.current.signal,
           });
@@ -128,11 +152,11 @@ export function useAssetSearch(
           if (!response.ok) {
             // Handle rate limiting (429) with a typed RateLimitedError
             if (response.status === 429) {
-              const retryAfterHeader = response.headers.get("retry-after");
+              const retryAfterHeader = response.headers?.get?.("retry-after");
               const retryAfter = retryAfterHeader ? parseInt(retryAfterHeader, 10) : undefined;
               throw new RateLimitedError("Rate limited by StellarExpert API. Please try again later.", {
                 retryAfter: !isNaN(retryAfter ?? NaN) ? retryAfter : undefined,
-                endpoint: STELLAR_EXPERT_API_URL,
+                endpoint: apiUrl,
               });
             }
             throw new Error(`StellarExpert API returned ${response.status}: ${response.statusText}`);
@@ -144,7 +168,7 @@ export function useAssetSearch(
           const records = data._embedded?.records || [];
 
           // Transform records to include parsed code and issuer
-          const transformedResults: StellarAssetInfo[] = records.map((record: StellarAssetInfo) => {
+          let transformedResults: StellarAssetInfo[] = records.map((record: StellarAssetInfo) => {
             const [code, issuer] = record.asset.split("-");
             return {
               ...record,
@@ -152,6 +176,14 @@ export function useAssetSearch(
               issuer,
             };
           });
+
+          if (exactCode) {
+            const wanted = trimmed.toUpperCase();
+            transformedResults = transformedResults.filter((a) => a.code?.toUpperCase() === wanted);
+          }
+          if (minRating !== undefined) {
+            transformedResults = transformedResults.filter((a) => (a.rating?.average ?? 0) >= minRating);
+          }
 
           setResults(transformedResults);
           setLastFetchedAt(new Date());

@@ -10,6 +10,10 @@ For breaking changes and migration steps, see [MIGRATION.md](MIGRATION.md).
 ## [Unreleased]
 
 ### Added
+- `useAssetSearch` options `network`, `limit`, `exactCode` and `minRating` for asset-picker UIs; the default request is unchanged ([#947](https://github.com/dark-princezz/stellar-hooks/issues/947))
+- `docs/HARDWARE_WALLET_COMPATIBILITY.md`, a generated hardware-wallet matrix, `scripts/check-hardware-matrix.mjs` and a CI workflow, plus Ledger adapter tests with a mocked transport ([#950](https://github.com/dark-princezz/stellar-hooks/issues/950))
+- `examples/freelance-escrow` — milestone payments with `useSorobanContract` and claimable-balance refunds ([#949](https://github.com/dark-princezz/stellar-hooks/issues/949))
+- README "Try it in 30 seconds" snippet ([#945](https://github.com/dark-princezz/stellar-hooks/issues/945))
 - `SEMVER.md` — formal Semantic Versioning policy defining breaking-change criteria across hook signatures, return shapes, default behaviors, and peer dependencies ([#861](https://github.com/dark-princezz/stellar-hooks/issues/861))
 - `COMPATIBILITY.md` — compatibility matrix documenting `@stellar/stellar-sdk` major versions (v10–v13), React versions, and known migration gotchas ([#863](https://github.com/dark-princezz/stellar-hooks/issues/863))
 - `codemods/v0.2.0/use-account-merge.js` — automated `jscodeshift` codemod migrating consumer code from pre-v0.2.0 `useAccountMerge` to the options and `submit()` pattern ([#864](https://github.com/dark-princezz/stellar-hooks/issues/864))

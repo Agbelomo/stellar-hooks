@@ -337,3 +337,66 @@ describe("useAssetSearch", () => {
     expect(result.current.error).toBeNull();
   });
 });
+
+describe("useAssetSearch options (#947)", () => {
+  const rec = (code: string, issuer: string, average: number) => ({
+    asset: `${code}-${issuer}-1`,
+    rating: { average },
+  });
+  const MIXED = {
+    _embedded: {
+      records: [
+        rec("USDC", "GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN", 9),
+        rec("USDC", "GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5", 3),
+        rec("usdc", "GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX", 7),
+        rec("USDCX", "GDQOE23CFSUNUSQY355GJCHAXUXC3FBXLQGDA5YVZETR3FEJLTXWQQWL", 8),
+      ],
+    },
+  };
+
+  beforeEach(() => {
+    mockFetch.mockReset();
+    mockFetch.mockResolvedValue({ ok: true, json: async () => MIXED });
+  });
+
+  async function run(options: Parameters<typeof useAssetSearch>[0], query = "USDC") {
+    const { result } = renderHook(() => useAssetSearch(options));
+    await act(async () => {
+      await result.current.search(query);
+    });
+    await waitFor(() => expect(result.current.isLoading).toBe(false));
+    return result;
+  }
+
+  it("keeps every fuzzy match by default", async () => {
+    const result = await run({ debounceMs: 0 });
+    expect(result.current.results).toHaveLength(4);
+  });
+
+  it("exactCode lists every issuer of the code and nothing else", async () => {
+    const result = await run({ debounceMs: 0, exactCode: true });
+    expect(result.current.results.map((a) => a.issuer)).toEqual([
+      "GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN",
+      "GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5",
+      "GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX",
+    ]);
+  });
+
+  it("minRating drops low-rated issuers", async () => {
+    const result = await run({ debounceMs: 0, exactCode: true, minRating: 7 });
+    expect(result.current.results.map((a) => a.rating.average)).toEqual([9, 7]);
+  });
+
+  it("searches the testnet directory and sends a clamped limit", async () => {
+    await run({ debounceMs: 0, network: "testnet", limit: 500 });
+    expect(mockFetch).toHaveBeenCalledWith(
+      "https://api.stellar.expert/explorer/testnet/asset?search=USDC&limit=200",
+      expect.anything()
+    );
+    await run({ debounceMs: 0, limit: 0 });
+    expect(mockFetch).toHaveBeenLastCalledWith(
+      "https://api.stellar.expert/explorer/public/asset?search=USDC&limit=1",
+      expect.anything()
+    );
+  });
+});
