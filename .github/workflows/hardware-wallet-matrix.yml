@@ -1,0 +1,38 @@
+name: Hardware Wallet Matrix
+
+on:
+  pull_request:
+    paths:
+      - "docs/hardware-wallet-matrix.json"
+      - "docs/HARDWARE_WALLET_COMPATIBILITY.md"
+      - "scripts/check-hardware-matrix.mjs"
+      - "src/wallets/ledger.ts"
+      - "src/wallets/__tests__/ledger.test.ts"
+      - ".github/workflows/hardware-wallet-matrix.yml"
+  push:
+    branches: [main]
+    paths:
+      - "docs/hardware-wallet-matrix.json"
+      - "docs/HARDWARE_WALLET_COMPATIBILITY.md"
+      - "src/wallets/ledger.ts"
+
+jobs:
+  matrix:
+    name: Validate matrix and run Ledger adapter tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Validate the matrix and its generated table
+        run: node scripts/check-hardware-matrix.mjs
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps --ignore-scripts
+
+      - name: Ledger adapter and matrix tests (mocked transport)
+        run: npx vitest run src/wallets/__tests__/ledger.test.ts src/__tests__/hardwareMatrix.test.ts

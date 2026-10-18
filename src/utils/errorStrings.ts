@@ -73,7 +73,7 @@ export const DEFAULT_ERROR_STRINGS: Readonly<ErrorStrings> = Object.freeze({
 
   // Network / RPC errors
   rateLimited: "Rate limit exceeded (HTTP 429). The Stellar endpoint is temporarily unavailable. Please retry after the indicated delay.",
-  networkError: "A network error occurred while communicating with the Stellar network.",,
+  networkError: "A network error occurred while communicating with the Stellar network.",
   rpcError: "An RPC error occurred while querying the network.",
   accountNotFound: "Account was not found on the Stellar network.",
   contractNotFound: "Soroban contract was not found.",
