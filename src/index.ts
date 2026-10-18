@@ -701,6 +701,53 @@ export type {
   StellarThemeProviderProps,
 } from "./components/theme";
 
+// Passkey smart accounts (#974, #975, #978)
+export { usePasskeyRegister } from "./hooks/usePasskeyRegister";
+export type {
+  PasskeyCredential,
+  PasskeyRegisterParams,
+  PasskeyRegisterResult,
+  UsePasskeyRegisterOptions,
+  UsePasskeyRegisterReturn,
+} from "./hooks/usePasskeyRegister";
+
+export { usePasskeySign } from "./hooks/usePasskeySign";
+export type { UsePasskeySignOptions, UsePasskeySignReturn } from "./hooks/usePasskeySign";
+
+export {
+  useRecoverySigners,
+  totalRecoveryWeight,
+  previewRecoverySignerRemoval,
+} from "./hooks/useRecoverySigners";
+export type {
+  RecoverySigner,
+  RecoveryWarning,
+  RecoveryRemovalPreview,
+  RemoveRecoverySignerResult,
+  UseRecoverySignersOptions,
+  UseRecoverySignersReturn,
+} from "./hooks/useRecoverySigners";
+
+export {
+  signAuthEntry,
+  hashAuthEntry,
+  verifyClientDataChallenge,
+  formatPasskeySignature,
+  derToCompactSignature,
+  extractP256PublicKey,
+  deriveSmartAccountSalt,
+  deriveSmartAccountAddress,
+  prepareAndSubmit,
+  buildInvokeTransaction,
+  authEntriesFor,
+} from "./utils/passkey";
+export type {
+  PasskeyAssertion,
+  SignAuthEntryOptions,
+  PasskeyFeePayer,
+  InvokeContractParams,
+  SubmitSorobanResult,
+} from "./utils/passkey";
 // Anchor (SEP-1 / SEP-24) hooks (#979, #980, #981)
 export { useAnchorInfo, stellarTomlUrl } from "./hooks/useAnchorInfo";
 export type { UseAnchorInfoOptions, UseAnchorInfoReturn } from "./hooks/useAnchorInfo";
