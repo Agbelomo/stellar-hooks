@@ -627,6 +627,50 @@
         "default": "./dist/hooks/useSorobanServer.js"
       }
     },
+    "./useTokenBalance": {
+      "types": "./dist/hooks/useTokenBalance.d.ts",
+      "import": {
+        "types": "./dist/hooks/useTokenBalance.d.mts",
+        "default": "./dist/hooks/useTokenBalance.mjs"
+      },
+      "require": {
+        "types": "./dist/hooks/useTokenBalance.d.ts",
+        "default": "./dist/hooks/useTokenBalance.js"
+      }
+    },
+    "./useTokenTransfer": {
+      "types": "./dist/hooks/useTokenTransfer.d.ts",
+      "import": {
+        "types": "./dist/hooks/useTokenTransfer.d.mts",
+        "default": "./dist/hooks/useTokenTransfer.mjs"
+      },
+      "require": {
+        "types": "./dist/hooks/useTokenTransfer.d.ts",
+        "default": "./dist/hooks/useTokenTransfer.js"
+      }
+    },
+    "./useTokenAllowance": {
+      "types": "./dist/hooks/useTokenAllowance.d.ts",
+      "import": {
+        "types": "./dist/hooks/useTokenAllowance.d.mts",
+        "default": "./dist/hooks/useTokenAllowance.mjs"
+      },
+      "require": {
+        "types": "./dist/hooks/useTokenAllowance.d.ts",
+        "default": "./dist/hooks/useTokenAllowance.js"
+      }
+    },
+    "./useNotificationPermission": {
+      "types": "./dist/hooks/useNotificationPermission.d.ts",
+      "import": {
+        "types": "./dist/hooks/useNotificationPermission.d.mts",
+        "default": "./dist/hooks/useNotificationPermission.mjs"
+      },
+      "require": {
+        "types": "./dist/hooks/useNotificationPermission.d.ts",
+        "default": "./dist/hooks/useNotificationPermission.js"
+      }
+    },
     "./useSorobanTokenBalance": {
       "types": "./dist/hooks/useSorobanTokenBalance.d.ts",
       "import": {

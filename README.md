@@ -154,6 +154,10 @@ Every hook listed below is implemented and exported from the package entry point
 | `useStellarAccounts()` | Fetch and poll multiple accounts in parallel (no serial waterfall). |
 | [`useStellarBalance()`](#usestellarbalancepublickey-options) ↓ | XLM and per-asset balances (wrapper around `useStellarAccount`). |
 | `useSorobanTokenBalance()` | Read SAC (Stellar Asset Contract) token balances via Soroban RPC. |
+| `useNotificationPermission()` | Browser Notification permission state with a `request()` helper. |
+| `useTokenAllowance()` | Read a SEP-41 spender allowance and its expiration ledger. |
+| `useTokenTransfer()` | Transfer a SEP-41 token from the connected wallet with pre-flight validation. |
+| `useTokenBalance()` | Read a SEP-41 token balance with typed bigint and formatted output. |
 | [`useLedgerEntry()`](#useledgerentryledgerkey-options) ↓ | Read a raw Soroban ledger entry by its `xdr.LedgerKey`. |
 | `useOperations()` | Fetch operations for an account or transaction from Horizon; supports `includeFailed` and cursor-based pagination. |
 | `useEffects()` | Stream account effects from Horizon. |

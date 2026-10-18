@@ -145,6 +145,10 @@ export default defineConfig({
             { text: 'useTransactionHistory', link: '/hooks/use-transaction-history' },
             { text: 'useAssets', link: '/hooks/use-assets' },
             { text: 'useAssetSearch', link: '/hooks/use-asset-search' },
+            { text: 'useNotificationPermission', link: '/hooks/use-notification-permission' },
+            { text: 'useTokenAllowance', link: '/hooks/use-token-allowance' },
+            { text: 'useTokenTransfer', link: '/hooks/use-token-transfer' },
+            { text: 'useTokenBalance', link: '/hooks/use-token-balance' },
           ]
         },
         {

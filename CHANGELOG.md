@@ -10,6 +10,10 @@ For breaking changes and migration steps, see [MIGRATION.md](MIGRATION.md).
 ## [Unreleased]
 
 ### Added
+- `useNotificationPermission()` — wrap the browser Notification permission flow with explicit granted/denied/default state ([#951](https://github.com/dark-princezz/stellar-hooks/issues/951))
+- `useTokenAllowance()` — read a SEP-41 spender allowance including its expiration ledger ([#967](https://github.com/dark-princezz/stellar-hooks/issues/967))
+- `useTokenTransfer()` — build, sign and submit a SEP-41 `transfer` with pending, success and error states ([#966](https://github.com/dark-princezz/stellar-hooks/issues/966))
+- `useTokenBalance()` — read a SEP-41 token balance as a typed `bigint` with a formatted string and loading/error state ([#965](https://github.com/dark-princezz/stellar-hooks/issues/965))
 - `SEMVER.md` — formal Semantic Versioning policy defining breaking-change criteria across hook signatures, return shapes, default behaviors, and peer dependencies ([#861](https://github.com/dark-princezz/stellar-hooks/issues/861))
 - `COMPATIBILITY.md` — compatibility matrix documenting `@stellar/stellar-sdk` major versions (v10–v13), React versions, and known migration gotchas ([#863](https://github.com/dark-princezz/stellar-hooks/issues/863))
 - `codemods/v0.2.0/use-account-merge.js` — automated `jscodeshift` codemod migrating consumer code from pre-v0.2.0 `useAccountMerge` to the options and `submit()` pattern ([#864](https://github.com/dark-princezz/stellar-hooks/issues/864))
