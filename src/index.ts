@@ -700,3 +700,27 @@ export type {
   StellarThemeTokens,
   StellarThemeProviderProps,
 } from "./components/theme";
+
+// Anchor (SEP-1 / SEP-24) hooks (#979, #980, #981)
+export { useAnchorInfo, stellarTomlUrl } from "./hooks/useAnchorInfo";
+export type { UseAnchorInfoOptions, UseAnchorInfoReturn } from "./hooks/useAnchorInfo";
+
+export { useAnchorDeposit } from "./hooks/useAnchorDeposit";
+export type {
+  AnchorDepositParams,
+  UseAnchorDepositOptions,
+  UseAnchorDepositReturn,
+} from "./hooks/useAnchorDeposit";
+
+export { useAnchorWithdraw, parseSep38Asset, sep24Memo } from "./hooks/useAnchorWithdraw";
+export type {
+  AnchorWithdrawParams,
+  AnchorWithdrawTransaction,
+  BuildWithdrawalPaymentParams,
+  WithdrawalPayment,
+  UseAnchorWithdrawOptions,
+  UseAnchorWithdrawReturn,
+} from "./hooks/useAnchorWithdraw";
+
+export type { Sep24InteractiveParams, Sep24InteractiveResponse } from "./utils/sep24";
+export { parseStellarToml } from "./utils/parseStellarToml";

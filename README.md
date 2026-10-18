@@ -852,6 +852,24 @@ npm run docs:dev
 
 The docs site will be available at `http://localhost:5173` (or the port VitePress assigns).
 
+### WebAuthn / passkey compatibility
+
+Passkey smart accounts depend on browser WebAuthn support and an ES256-capable authenticator.
+
+| | Chrome | Safari | Firefox | Edge |
+|---|---|---|---|---|
+| **Desktop** | ✅ | ✅ macOS | ✅ (Linux: security keys only) | ✅ |
+| **Mobile** | ✅ Android | ✅ iOS (all iOS browsers use WebKit) | ⚠️ Android partial | ✅ Android |
+
+| Authenticator | Supported | Synced |
+|---|---|---|
+| macOS Touch ID / iOS Face ID & Touch ID | ✅ | iCloud Keychain |
+| Windows Hello | ✅ | Recent Windows 11 |
+| Android biometrics | ✅ | Google Password Manager |
+| YubiKey / FIDO2 security keys | ✅ | Device-bound |
+
+Key constraints: HTTPS (or `localhost`) only, call WebAuthn directly from a user gesture (strict on Safari), and delegate `publickey-credentials-get` / `-create` to cross-origin iframes. See **[docs/WEBAUTHN.md](docs/WEBAUTHN.md)** for the full matrix, caveats, feature detection, and fallback recommendations.
+
 ---
 
 ## Preview Deployments
