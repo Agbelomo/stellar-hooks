@@ -627,48 +627,48 @@
         "default": "./dist/hooks/useSorobanServer.js"
       }
     },
-    "./useFriendbot": {
-      "types": "./dist/hooks/useFriendbot.d.ts",
+    "./useTokenBalance": {
+      "types": "./dist/hooks/useTokenBalance.d.ts",
       "import": {
-        "types": "./dist/hooks/useFriendbot.d.mts",
-        "default": "./dist/hooks/useFriendbot.mjs"
+        "types": "./dist/hooks/useTokenBalance.d.mts",
+        "default": "./dist/hooks/useTokenBalance.mjs"
       },
       "require": {
-        "types": "./dist/hooks/useFriendbot.d.ts",
-        "default": "./dist/hooks/useFriendbot.js"
+        "types": "./dist/hooks/useTokenBalance.d.ts",
+        "default": "./dist/hooks/useTokenBalance.js"
       }
     },
-    "./useAnchorQuote": {
-      "types": "./dist/hooks/useAnchorQuote.d.ts",
+    "./useTokenTransfer": {
+      "types": "./dist/hooks/useTokenTransfer.d.ts",
       "import": {
-        "types": "./dist/hooks/useAnchorQuote.d.mts",
-        "default": "./dist/hooks/useAnchorQuote.mjs"
+        "types": "./dist/hooks/useTokenTransfer.d.mts",
+        "default": "./dist/hooks/useTokenTransfer.mjs"
       },
       "require": {
-        "types": "./dist/hooks/useAnchorQuote.d.ts",
-        "default": "./dist/hooks/useAnchorQuote.js"
+        "types": "./dist/hooks/useTokenTransfer.d.ts",
+        "default": "./dist/hooks/useTokenTransfer.js"
       }
     },
-    "./useTokenMetadata": {
-      "types": "./dist/hooks/useTokenMetadata.d.ts",
+    "./useTokenAllowance": {
+      "types": "./dist/hooks/useTokenAllowance.d.ts",
       "import": {
-        "types": "./dist/hooks/useTokenMetadata.d.mts",
-        "default": "./dist/hooks/useTokenMetadata.mjs"
+        "types": "./dist/hooks/useTokenAllowance.d.mts",
+        "default": "./dist/hooks/useTokenAllowance.mjs"
       },
       "require": {
-        "types": "./dist/hooks/useTokenMetadata.d.ts",
-        "default": "./dist/hooks/useTokenMetadata.js"
+        "types": "./dist/hooks/useTokenAllowance.d.ts",
+        "default": "./dist/hooks/useTokenAllowance.js"
       }
     },
-    "./useTokenApprove": {
-      "types": "./dist/hooks/useTokenApprove.d.ts",
+    "./useNotificationPermission": {
+      "types": "./dist/hooks/useNotificationPermission.d.ts",
       "import": {
-        "types": "./dist/hooks/useTokenApprove.d.mts",
-        "default": "./dist/hooks/useTokenApprove.mjs"
+        "types": "./dist/hooks/useNotificationPermission.d.mts",
+        "default": "./dist/hooks/useNotificationPermission.mjs"
       },
       "require": {
-        "types": "./dist/hooks/useTokenApprove.d.ts",
-        "default": "./dist/hooks/useTokenApprove.js"
+        "types": "./dist/hooks/useNotificationPermission.d.ts",
+        "default": "./dist/hooks/useNotificationPermission.js"
       }
     },
     "./useSorobanTokenBalance": {
