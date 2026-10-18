@@ -629,6 +629,29 @@ export type {
   UseWebAuthReturn,
 } from "./hooks/useWebAuth";
 
+export {
+  useAnchorTransactionStatus,
+  isTerminalAnchorStatus,
+  TERMINAL_ANCHOR_STATUSES,
+} from "./hooks/useAnchorTransactionStatus";
+export type {
+  AnchorTransaction,
+  AnchorTransactionStatus,
+  UseAnchorTransactionStatusOptions,
+  UseAnchorTransactionStatusReturn,
+} from "./hooks/useAnchorTransactionStatus";
+
+export { useKycStatus, extractMissingKycFields } from "./hooks/useKycStatus";
+export type {
+  KycStatus,
+  KycField,
+  KycProvidedField,
+  KycMissingField,
+  KycCustomerResponse,
+  UseKycStatusOptions,
+  UseKycStatusReturn,
+} from "./hooks/useKycStatus";
+
 export { useProposals } from "./hooks/useProposals";
 export type {
   Proposal,

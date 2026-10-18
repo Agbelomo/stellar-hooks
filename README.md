@@ -704,6 +704,51 @@ Throws a descriptive error if used outside `<StellarProvider>`.
 
 ---
 
+## SEP Compatibility
+
+Support for [Stellar Ecosystem Proposals](https://github.com/stellar/stellar-protocol/tree/master/ecosystem) across the library.
+
+| SEP | Description | Hook / API | Status |
+|-----|-------------|------------|--------|
+| [SEP-1](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0001.md) | Stellar Info File (`stellar.toml`) | `useStellarToml()`, `useAssetMetadata()` | Stable |
+| [SEP-6](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0006.md) | Programmatic Deposit & Withdrawal | — | Planned |
+| [SEP-10](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0010.md) | Stellar Web Authentication | `useWebAuth()` | Experimental |
+| [SEP-12](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0012.md) | KYC API | `useKycStatus()` | Experimental |
+| [SEP-24](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0024.md) | Hosted Deposit & Withdrawal | `useSep24()`, `useAnchorTransactionStatus()` | Experimental |
+| [SEP-38](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0038.md) | Anchor RFQ API (Quotes) | — | Planned |
+
+- **Stable** — API is covered by semver guarantees.
+- **Experimental** — usable today, but the API may change in a minor release.
+- **Planned** — on the [roadmap](#roadmap), not yet implemented.
+
+### `useAnchorTransactionStatus(options)`
+
+Polls a SEP-24 anchor's `/transaction` endpoint until the transaction reaches a terminal status (`completed`, `refunded`, `expired`, `no_market`, `error`). Timers are cleared on unmount and whenever the options change.
+
+```tsx
+const { transaction, status, isPolling, error, refetch } = useAnchorTransactionStatus({
+  anchorUrl: "https://testanchor.stellar.org/sep24",
+  transactionId,
+  jwt,
+  pollIntervalMs: 5000, // default
+});
+```
+
+### `useKycStatus(options)`
+
+Queries a SEP-12 anchor's `GET /customer` endpoint. When the status is `NEEDS_INFO`, `missingFields` lists the required fields (and rejected provided fields) that still need to be submitted.
+
+```tsx
+const { status, missingFields, fields, isLoading, error, refetch } = useKycStatus({
+  anchorUrl: "https://testanchor.stellar.org/kyc",
+  jwt,
+  kycType: "sep31-sender", // optional
+  id: customerId,          // optional
+});
+```
+
+---
+
 ## Provider
 
 Wrap your app (or the portion that needs Stellar) with `<StellarProvider>` to configure the network. Every hook that reads blockchain data consumes endpoint configuration from this provider.
