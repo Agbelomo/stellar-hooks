@@ -10,6 +10,10 @@ For breaking changes and migration steps, see [MIGRATION.md](MIGRATION.md).
 ## [Unreleased]
 
 ### Added
+- `useTokenApprove()` — wrap the SEP-41 `approve` call with a required, validated expiration ledger ([#968](https://github.com/dark-princezz/stellar-hooks/issues/968))
+- `useTokenMetadata()` — read a SEP-41 token's name, symbol and decimals concurrently, cached per contract ([#969](https://github.com/dark-princezz/stellar-hooks/issues/969))
+- `useAnchorQuote()` — request SEP-38 indicative prices and firm quotes from an anchor ([#984](https://github.com/dark-princezz/stellar-hooks/issues/984))
+- `useFriendbot()` — fund a testnet or futurenet account through Friendbot, reporting funded, already-funded and failure states ([#998](https://github.com/dark-princezz/stellar-hooks/issues/998))
 - `SEMVER.md` — formal Semantic Versioning policy defining breaking-change criteria across hook signatures, return shapes, default behaviors, and peer dependencies ([#861](https://github.com/dark-princezz/stellar-hooks/issues/861))
 - `COMPATIBILITY.md` — compatibility matrix documenting `@stellar/stellar-sdk` major versions (v10–v13), React versions, and known migration gotchas ([#863](https://github.com/dark-princezz/stellar-hooks/issues/863))
 - `codemods/v0.2.0/use-account-merge.js` — automated `jscodeshift` codemod migrating consumer code from pre-v0.2.0 `useAccountMerge` to the options and `submit()` pattern ([#864](https://github.com/dark-princezz/stellar-hooks/issues/864))
