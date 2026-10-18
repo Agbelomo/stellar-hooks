@@ -1,9 +1,7 @@
 {
   "$schema": "https://typedoc.org/schema.json",
   "entryPoints": [
-    "src/index.ts",
-    "packages/query/src/index.ts",
-    "packages/swr/src/index.ts"
+    "src/index.ts"
   ],
   "out": "docs/api",
   "plugin": ["typedoc-plugin-markdown"],
@@ -13,6 +11,11 @@
   "excludeProtected": true,
   "excludeExternals": true,
   "excludeInternal": true,
+  "outputFileStrategy": "members",
+  "parametersFormat": "table",
+  "propertiesFormat": "table",
+  "enumMembersFormat": "table",
+  "typeDeclarationFormat": "table",
   "exclude": [
     "**/*.test.ts",
     "**/*.test.tsx",

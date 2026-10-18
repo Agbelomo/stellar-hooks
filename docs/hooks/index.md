@@ -2,6 +2,10 @@
 
 Complete reference for all stellar-hooks.
 
+::: tip Auto-Generated Reference
+The hook reference is automatically generated from source code JSDoc comments via TypeDoc. Explore the comprehensive [API Reference](/api/) for full type definitions, parameter tables, and return shapes.
+:::
+
 ## Wallet Hooks
 
 | Hook | Description |

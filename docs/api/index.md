@@ -1,6 +1,15 @@
 # API Reference
 
-Complete API reference for stellar-hooks.
+Auto-generated API reference for `stellar-hooks` compiled directly from TypeScript source comments with TypeDoc.
+
+## Generated API Modules
+
+- [Hooks & Functions Reference](/api/functions/) — All hook implementations and utility functions
+- [Interfaces Reference](/api/interfaces/) — Hook options, return values, and state interfaces
+- [Type Aliases Reference](/api/type-aliases/) — Branded types and union types
+- [Variables & Constants](/api/variables/) — Network configurations and exported constants
+- [React Query Adapter](/api/query/) — `@stellar-hooks/query` reference
+- [SWR Adapter](/api/swr/) — `@stellar-hooks/swr` reference
 
 ## Provider
 

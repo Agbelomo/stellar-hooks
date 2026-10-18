@@ -189,6 +189,12 @@ export default defineConfig({
           text: 'API Reference',
           items: [
             { text: 'Overview', link: '/api/' },
+            { text: 'Hooks & Functions', link: '/api/functions/' },
+            { text: 'Interfaces', link: '/api/interfaces/' },
+            { text: 'Type Aliases', link: '/api/type-aliases/' },
+            { text: 'Variables', link: '/api/variables/' },
+            { text: 'Query Adapter', link: '/api/query/' },
+            { text: 'SWR Adapter', link: '/api/swr/' },
             { text: 'Provider', link: '/api/provider' },
             { text: 'Types', link: '/api/types' },
             { text: 'Utilities', link: '/api/utilities' },
@@ -205,6 +211,8 @@ export default defineConfig({
             { text: 'Payment Flow', link: '/examples/payment-flow' },
             { text: 'Soroban Contract', link: '/examples/soroban-contract' },
             { text: 'Multi-wallet', link: '/examples/multi-wallet' },
+            { text: 'DEX Offer Book Viewer', link: '/examples/dex-offer-book-viewer' },
+            { text: 'Multi-Asset Portfolio Dashboard', link: '/examples/multi-asset-portfolio-dashboard' },
           ]
         }
       ]
